@@ -19,9 +19,15 @@ export default function AddToCartButton( { container, passesValidation } )
             `form[data-product_id="${ productId }"]`
         );
 
-        if (form && ! event.currentTarget.classList.contains('disabled') ) {
-            form.submit();
+        if ( form ) {
+            const submitButton = form.querySelector('[type="submit"]');
+
+            // Need to click on submit button to ensure that the 'add-to-cart' value is sent for simple MNM.
+            if ( submitButton && ! event.currentTarget.classList.contains('disabled') ) {
+                submitButton.click();
+            }
         }
+
     };
 
     if (! inStock || ! isPurchasable ) {
