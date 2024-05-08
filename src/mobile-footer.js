@@ -20,7 +20,7 @@ import AddToCartButton from './components/add-to-cart-button';
 import CancelButton from './components/cancel-button';
 import './filters';
 
-import { isInViewport } from './utils';
+import { isInViewport, getProductRoute } from './utils';
 
 const MobileFooter = () => {
 	// Track all props in state. This is a bit of a hack to get around the fact that we can't use useSelect for simple mix and match yet.
@@ -113,7 +113,7 @@ const MobileFooter = () => {
 
 			if (containerId) {
 				apiFetch({
-					path: `/wc/store/v1/products/${containerId}`
+					path: getProductRoute(containerId)
 				}).then((container) => {
 					if (container && container.id) {
 
