@@ -1,4 +1,7 @@
 /**
+ * External dependencies
+ */
+import { addQueryArgs } from '@wordpress/url';
  * Test if Element is in window viewport
  * @param {jsx} element 
  * @return bool 
@@ -28,13 +31,7 @@ export const getProductRoute = (containerId) => {
 
 	// Get the search parameters from the current browser URL
 	const params = new URLSearchParams(window.location.search);
-	
-	// Check if there are any parameters
-	if (params.toString() === '') {
-	  return baseUrl; // Return the base URL if there are no parameters
-	}
-	
-	// Construct the new URL with the provided base URL and the same search parameters
-	return baseUrl + '?' + params.toString();
 
-  }
+	return addQueryArgs(baseUrl, Object.fromEntries(params.entries()) );
+
+}
