@@ -6,7 +6,6 @@ import { useSelect } from '@wordpress/data';
 import { _x } from '@wordpress/i18n';
 import { useDebounce } from '@wordpress/compose';
 import { addAction } from '@wordpress/hooks';
-
 import apiFetch from '@wordpress/api-fetch';
 
 /**
@@ -31,6 +30,7 @@ const MobileFooter = () => {
 		maxContainerSize: '',
 		messages: [],
 		minContainerSize: 0,
+		maxContainerSize: '',
 		passesValidation: false,
 		totalPrice: 0,
 		totalQuantity: 0,
