@@ -78,30 +78,6 @@ const MobileFooter = () => {
         []
     );
 
-    const handleScroll = () => {
-        const form    = document.querySelector('form.mnm_form');
-        let variation = null;
-
-        if (form) {
-            variation = form.querySelector('.wc-mnm-variation');
-
-			// Define the element that we will test is in view... different between simple|variable mnm.
-			const wrapper = null !== variation ? variation : form;
-
-			const isVisible = isInViewport(wrapper);
-
-			// Only update state when it changes to limit re-renders.
-			if (stateProps.isVisible !== isVisible) {
-				updateStateProps({ isVisible });
-			}
-        } else {
-			updateStateProps({ isVisible: false });
-		}
-
-    };
-
-	const debouncedScroll = useDebounce( handleScroll, 200 );
-
     // Detect a container change/definition. Certain props only change this one time.
     useEffect(() => {
         if (stateProps.container?.id !== storeProps.container?.id) {
@@ -163,11 +139,36 @@ const MobileFooter = () => {
         }
     }, []);
 
-	// Attach scroll event listener to the window.
+	// Attach scroll event listener to the window.  
+    const handleScroll = () => {
+
+        const form    = document.querySelector('form.mnm_form');
+        let variation = null;
+
+        if (form) {
+            variation = form.querySelector('.wc-mnm-variation');
+
+            // Define the element that we will test is in view... different between simple|variable mnm.
+            const wrapper = null !== variation ? variation : form;
+
+            const isVisible = isInViewport(wrapper);
+
+            // Only update state when it changes to limit re-renders.
+            if (stateProps.isVisible !== isVisible) {
+                updateStateProps({ isVisible });
+            }
+        } else {
+            updateStateProps({ isVisible: false });
+        }
+
+    };
+
+    const debouncedScroll = useDebounce( handleScroll, 200 );
+
 	useEffect(() => {
-		window.addEventListener('scroll', debouncedScroll);
+		window.addEventListener('scroll', debouncedScroll );
 		handleScroll();
-	}, [debouncedScroll]);
+	}, []);
 
     // Pull out a few props that we need in this file.
     const { container, context, passesValidation, isVisible } = stateProps;
