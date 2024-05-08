@@ -1,3 +1,8 @@
+/**
+ * External dependencies
+ */
+import { _x } from '@wordpress/i18n';
+
 export default function CancelButton( { context } )
 {
     if ('edit' !== context ) {
