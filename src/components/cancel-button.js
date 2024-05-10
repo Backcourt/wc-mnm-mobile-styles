@@ -3,8 +3,8 @@
  */
 import { _x } from '@wordpress/i18n';
 
-export default function CancelButton( { container, context } )
-{
+export default function CancelButton( { container, context } ) {
+
 	if ('edit' !== context ) {
 		return null;
 	}

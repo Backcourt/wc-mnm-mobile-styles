@@ -104,17 +104,21 @@ const MobileFooter = () => {
 		// For simple Mix and Match, there's no data store yet.
 		if (!stateProps.container?.id && stateProps.containerId > 0) {
 
+			const form = document.querySelector(`form.mnm_form[data-container_id="${stateProps.containerId}"]`);
+
 			apiFetch({
 				path: getProductRoute(stateProps.containerId)
 			}).then((container) => {
 				if (container && container.id) {
 
+					const context = form.getAttribute('data-validation_context') ?? 'add-to-cart';
 					const minContainerSize = container?.extensions?.mix_and_match?.min_container_size ?? 0;
 					const maxContainerSize = container?.extensions?.mix_and_match?.max_container_size ?? '';
 			
 					updateStateProps({
 						container: container,
 						containerId: container.id,
+						context: context,
 						minContainerSize: minContainerSize,
 						maxContainerSize: maxContainerSize,
 					});
