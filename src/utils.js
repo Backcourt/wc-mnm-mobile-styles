@@ -42,7 +42,7 @@ export const getProductRoute = (containerId) => {
 	 * @param {Object} queryArgs - The query args to add to the URL.
 	 * @param {int} containerId - The product ID we want to get the route for.
 	 */
-	const queryArgs = applyFilters( 'wc.mnm.container-query-args', Object.fromEntries(params.entries() ), containerId );
+	const queryArgs = applyFilters( 'wc.mnm.container-route-params', Object.fromEntries(params.entries() ), containerId );
 
 	return addQueryArgs(baseUrl, queryArgs );
 
