@@ -2,6 +2,7 @@
  * External dependencies
  */
 import { addQueryArgs } from '@wordpress/url';
+import { applyFilters } from '@wordpress/hooks';
  * Test if Element is in window viewport
  * @param {jsx} element 
  * @return bool 
@@ -32,6 +33,15 @@ export const getProductRoute = (containerId) => {
 	// Get the search parameters from the current browser URL
 	const params = new URLSearchParams(window.location.search);
 
-	return addQueryArgs(baseUrl, Object.fromEntries(params.entries()) );
+	/**
+	 * Add query args to the Store API product route.
+	 * Cannot change the product being retrieved, this is suitable for adding $_GET params that can later be used to modify the route responses.
+	 * 
+	 * @param {Object} queryArgs - The query args to add to the URL.
+	 * @param {int} containerId - The product ID we want to get the route for.
+	 */
+	const queryArgs = applyFilters( 'wc.mnm.container-query-args', Object.fromEntries(params.entries() ), containerId );
+
+	return addQueryArgs(baseUrl, queryArgs );
 
 }
