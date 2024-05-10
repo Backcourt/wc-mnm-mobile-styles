@@ -153,7 +153,7 @@ class WC_MNM_Mobile_Styles {
 	/*-----------------------------------------------------------------------------------*/
 
 	/**
-	 * Declare HPOS (Custom Order tables) compatibility.
+	 * Declare Features compatibility.
 	 *
 	 */
 	public static function declare_features_compatibility() {
@@ -162,6 +162,7 @@ class WC_MNM_Mobile_Styles {
 			return;
 		}
 
+		// HPOS (Custom Order tables.
 		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', plugin_basename( __FILE__ ), true );
 
 		// Cart and Checkout Blocks.
