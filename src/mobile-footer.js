@@ -25,6 +25,7 @@ const MobileFooter = () => {
 	// Track all props in state. This is a bit of a hack to get around the fact that we can't use useSelect for simple mix and match yet.
 	const [stateProps, setStateProps] = useState({
 		container: null,
+		containerId: 0,
 		context: 'add-to-cart',
 		isVisible: false,
 		maxContainerSize: '',
@@ -61,6 +62,7 @@ const MobileFooter = () => {
 			if (containerStoreExists) {
 				return {
 					container: select(CONTAINER_STORE_KEY).getContainer(),
+					containerId: select(CONTAINER_STORE_KEY).getContainerId(),
 					context: select(CONTAINER_STORE_KEY).getContext(),
 					maxContainerSize: select(CONTAINER_STORE_KEY).getMaxContainerSize(),
 					messages: select(CONTAINER_STORE_KEY).passesValidation()
@@ -94,43 +96,35 @@ const MobileFooter = () => {
 	// Variable Mix and Match should use useSelect with the data store, but an event listener will work for both until simple MNM gets a data store too.
 	useEffect(() => {
 		addAction('wc.mnm.container.container-updated', 'wc-mix-and-match', updateStateProps);
-			});
-		};
-
-		const form = document.querySelector(`form.mnm_form`);
-
-		// For simple Mix and Match, there's no data store yet and we need to get data from the REST response.
-		if (!containerStoreExists && form) {
-			const containerId = form.getAttribute('data-container_id');
-
-			if (containerId) {
-				apiFetch({
-					path: getProductRoute(containerId)
-				}).then((container) => {
-					if (container && container.id) {
-
-						const minContainerSize = container?.extensions?.mix_and_match?.min_container_size ?? 0;
-						const maxContainerSize = container?.extensions?.mix_and_match?.max_container_size ?? '';
-						const context = form.getAttribute('data-validation_context') ?? 'add-to-cart';
-
-						setStateProps((prevState) => {
-							return {
-								...prevState,
-								...{
-									container: container,
-									context: context,
-									minContainerSize: minContainerSize,
-									maxContainerSize: maxContainerSize,
-								},
-							};
-						});
-					}
-				}).catch((error) => {
-					console.debug('error', error);
-				});
-			}
-		}
 	}, []);
+
+	// When container ID is found on a form, we need to fetch the container store API product response for simple MNM products.
+	useEffect(() => {
+
+		// For simple Mix and Match, there's no data store yet.
+		if (!stateProps.container?.id && stateProps.containerId > 0) {
+
+			apiFetch({
+				path: getProductRoute(stateProps.containerId)
+			}).then((container) => {
+				if (container && container.id) {
+
+					const minContainerSize = container?.extensions?.mix_and_match?.min_container_size ?? 0;
+					const maxContainerSize = container?.extensions?.mix_and_match?.max_container_size ?? '';
+			
+					updateStateProps({
+						container: container,
+						containerId: container.id,
+						minContainerSize: minContainerSize,
+						maxContainerSize: maxContainerSize,
+					});
+				}
+			}).catch((error) => {
+				window.console.debug('error', error);
+			});
+		
+		}
+	}, [stateProps.containerId]);
 
 	// Attach scroll event listener to the window.  
 	const handleScroll = () => {
