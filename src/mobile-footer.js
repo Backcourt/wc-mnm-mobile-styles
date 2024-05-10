@@ -202,6 +202,7 @@ const MobileFooter = () => {
 						{_x('Return to selections', '[Frontend]', 'wc-mnm-mobile-styles')}
 					</a>
 					<CancelButton
+						container={container}
 						context={context}
 					/>
 				</div>
