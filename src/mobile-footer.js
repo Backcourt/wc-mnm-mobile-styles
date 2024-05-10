@@ -138,15 +138,14 @@ const MobileFooter = () => {
 			// Define the element that we will test is in view... different between simple|variable mnm.
 			const wrapper = null !== variation ? variation : form;
 
-			const isVisible = isInViewport(wrapper);
+			const { isVisible } = { stateProps };
 
-			// Only update state when it changes to limit re-renders.
-			if (stateProps.isVisible !== isVisible) {
-				updateStateProps({ isVisible });
-			}
+			const inViewport = isInViewport(wrapper);
+
+			updateStateProps({ 'isVisible': inViewport });
 
 		} else {
-			updateStateProps({ isVisible: false });
+			updateStateProps({ 'isVisible': false });
 		}
 
 	};
