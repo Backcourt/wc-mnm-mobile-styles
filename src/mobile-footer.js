@@ -90,22 +90,14 @@ const MobileFooter = () => {
 		}
 	}, [storeProps.container]);
 
+	// Listen for changes to mix and match configuration.
 	// Variable Mix and Match should use useSelect with the data store, but an event listener will work for both until simple MNM gets a data store too.
 	useEffect(() => {
-		const updateUI = (updated) => {
-			updateStateProps({
-				passesValidation: updated.passesValidation,
-				messages: updated.passesValidation
-					? updated.messages.status
-					: updated.messages.errors,
-				totalPrice: updated.total,
-				totalQuantity: updated.totalQuantity,
+		addAction('wc.mnm.container.container-updated', 'wc-mix-and-match', updateStateProps);
 			});
 		};
 
 		const form = document.querySelector(`form.mnm_form`);
-
-		addAction('wc.mnm.container.container-updated', 'wc-mix-and-match', updateUI);
 
 		// For simple Mix and Match, there's no data store yet and we need to get data from the REST response.
 		if (!containerStoreExists && form) {
