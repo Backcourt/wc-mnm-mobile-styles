@@ -154,9 +154,7 @@ const MobileFooter = () => {
 
 	useEffect(() => {
 		window.addEventListener('scroll', debouncedScroll );
-        addAction('wc.mnm.container.add-to-cart-rendered', 'wc-mix-and-match', handleScroll);
-		addAction('wc.mnm.container.container-updated', 'wc-mix-and-match', handleScroll);
-		handleScroll();
+		addAction('wc.mnm.container.container-updated', 'wc-mix-and-match', handleScroll );
 	}, []);
 
 	// Pull out a few props that we need in this file.
