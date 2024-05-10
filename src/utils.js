@@ -3,6 +3,8 @@
  */
 import { addQueryArgs } from '@wordpress/url';
 import { applyFilters } from '@wordpress/hooks';
+
+/**
  * Test if Element is in window viewport
  * @param {jsx} element 
  * @return bool 
