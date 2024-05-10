@@ -44,7 +44,7 @@ export default function AddToCartButton( { container, passesValidation } )
 				container.parent > 0 ? container.parent : container.id
 			}
 			onClick={ handleAddToCart }
-			className={ `single_add_to_cart_button button alt wp-element-button ${
+			className={ `single_add_to_cart_button button alt wp-element-button wc-block-components-button ${
 				! passesValidation ? 'disabled' : ''
 			}` }
 		>

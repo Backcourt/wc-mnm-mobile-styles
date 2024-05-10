@@ -31,7 +31,7 @@ export default function CancelButton( { container, context } ) {
 			<div className="actions">
 				<button
 					type="button"
-					className="button wc-mnm-cancel-edit wp-element-button"
+					className="button wc-mnm-cancel-edit wp-element-button wc-block-components-button outlined"
 					onClick={ onCancelEdit }
 					data-form_id={
 						container.parent > 0 ? container.parent : container.id
