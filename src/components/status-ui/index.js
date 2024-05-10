@@ -20,6 +20,7 @@ export default function StatusUI( props )
         maxContainerSize,
         messages,
         minContainerSize,
+        passesValidation,
         totalPrice,
         totalQuantity,
     } = props;
@@ -54,7 +55,7 @@ export default function StatusUI( props )
             totalQuantity={ totalQuantity }
         />
 
-        <StatusMessage messages={ messages } />
+        <StatusMessage messages={ passesValidation ? messages.status : messages.errors } />
 
     </>
     );
