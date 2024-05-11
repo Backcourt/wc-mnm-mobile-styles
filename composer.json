@@ -1,8 +1,42 @@
 {
-    "name": "kathyisawesome/wc-mnm-mobile-styles",
-    "description": "Turns the Mix and Match counter message into a sticky footer.",
-    "homepage": "https://github.com/kathyisawesome/wc-mnm-mobile-styles",
-    "type": "wordpress-plugin",
-    "license": "GPL-3.0-or-later"
+	"name": "kathyisawesome/wc-mnm-mobile-styles",
+	"description": "Turns the Mix and Match counter message into a sticky footer.",
+	"homepage": "https://github.com/kathyisawesome/wc-mnm-mobile-styles",
+	"type": "wordpress-plugin",
+	"license": "GPL-3.0-or-later",
+	"scripts": {
+		"makepot-audit": [
+			"wp --allow-root i18n make-pot . languages/wc-mnm-mobile-styles.pot --slug=wc-mnm-mobile-styles --exclude=\".github,.wordpress-org,node_modules,vendor,src,build,deploy\" --headers='{\"Report-Msgid-Bugs-To\":\"https://woocommerce.com/my-account/tickets/\"}'"
+		],
+		"makepot": [
+			"@makepot-audit --skip-audit"
+		],
+		"phpcs": [
+			"phpcs . -s -p -n"
+		],
+		"phpcs-pre-commit": [
+			"phpcs . -s -p -n"
+		],
+		"phpcb": [
+			"phpcbf . "
+		]
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"extra": {
+		"scripts-description": {
+			"makepot": "Generate a .pot file for translation",
+			"makepot-audit": "Generate a .pot file for translation. Dry run.",
+			"phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+			"phpcb": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+		}
+	},
+	"require-dev": {
+		"woocommerce/woocommerce-sniffs": "^1.0",
+		"wp-cli/i18n-command": "^2.6"
+	}
 }
-  

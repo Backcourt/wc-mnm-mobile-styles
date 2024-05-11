@@ -8,11 +8,17 @@ project.properties
 sftp-config.json
 .idea
 
-# Grunt
+# Temp
+.bak
+
+# Build
 /node_modules/
 /deploy/
 /build/
+/vendor/
 npm-debug.log
+package-lock.json
+composer.lock
 
 # Sass
 .sass-cache/
@@ -31,14 +37,11 @@ Thumbs.db
 
 # Logs
 /logs
-package-lock.json
+
 
 # Compiled assets
-assets/js/frontend/*.min.js
-assets/js/backend/*.min.js
-assets/css/
 languages/
-none
+assets/
 
 # Editor
 .vscode/

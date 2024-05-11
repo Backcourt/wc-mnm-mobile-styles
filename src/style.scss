@@ -1,13 +1,58 @@
-@import '../mixins.scss';
+@mixin iconbefore( $glyph: "\f148" ) {
+	font-family: 'WC-Mix-And-Match';
+	speak: never;
+	font-weight: 400;
+	font-variant: 400;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	margin-right: 0.618em;
+	content: $glyph;
+	text-decoration: none;
+	display: inline-block;
+}
+
+@mixin iconafter( $glyph: "\f148" ) {
+	font-family: 'WC-Mix-And-Match';
+	speak: never;
+	font-weight: 400;
+	font-variant: 400;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	margin-left: 0.618em;
+	content: $glyph;
+	text-decoration: none;
+	display: inline-block;
+}
+
+@keyframes slideUp {
+	from {
+		transform: translateY(100%);
+	}
+	to {
+		transform: translateY(0%);
+	}
+}
+
+@keyframes slideDown {
+	from {
+		transform: translateY(0%);
+	}
+	to {
+		transform: translateY(100%);
+	}
+}
 
 .woocommerce-js {
 
 	.mnm_form.cart {
-		.mnm_reset {
-			display: none;
+
+		.mnm_status >*:not(.mnm_availability) {
+			display: none !important;
 		}
 		
-		.mnm_status, .single_add_to_cart_button, .mnm_reset {
+		.single_add_to_cart_button, .mnm_reset {
 			display: none !important;
 		}
 
@@ -29,25 +74,33 @@
 
 .mnm-mobile-container {
 
-	display: none;
 	background: #FFFFFF;
 	position: fixed;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	z-index: 99999;
+	z-index: 999;
 	padding: 1em;
 	overflow: visible;
 
-	zoom: 1;
 	box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
 
-	-webkit-animation-name: slideInUp;
-	animation-name: slideInUp;
-	-webkit-animation-duration: 0.5s;
-	animation-duration: 0.5s;
+	-webkit-animation-name: slideDown;
+	animation-name: slideDown;
+	-webkit-animation-duration: 0.3s;
+	animation-duration: 0.3s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
+
+	&:empty {
+		-webkit-animation-name: slideDown;
+		animation-name: slideDown;
+	}
+
+	&:not(:empty) {
+		-webkit-animation-name: slideUp;
+		animation-name: slideUp;
+	}	
 
 	progress.mnm-container-progress {
 		display: block;
@@ -79,17 +132,32 @@
 	.mnm-mobile-content {
 		margin-top: 0;
 		margin-bottom: 0;
+
+		&.context-add-to-cart {
+			&.fails_validation {
+				.mnm_button_wrap .single_add_to_cart_button {
+					opacity: 0; // Hide the button until valid.
+					display:  none;
+				}
+			}
+		
+			&.passes_validation {
+				.mnm_button_wrap .single_add_to_cart_button {
+					opacity: 1;
+				}
+			}
+		}
 	}
 
 	.mnm_button_wrap {
+
+		margin-top: .5em;
 
 		&:after {
 			display: table;
 			content: ' ';
 			clear: both;
 		}
-
-		display: flex;
 
 		.quantity input {
 			max-width: 5em;
@@ -98,13 +166,15 @@
 	}
 
 	.single_add_to_cart_button {
+		transition: opacity 0.3s ease-in-out; 
 		margin-top: 0 !important;
+		width: 100%;
 	}
 
 	.mnm_price {
 		display: inline-block;
-		font-weight: bold;
-
+		margin-right: .25em;
+	
 		.price {
 			font-size: inherit;
 		}
@@ -116,7 +186,7 @@
 
 	.mnm_message_content {
 		padding: 0;
-		margin: 0 0 1em 0;
+		margin: 00;
 		list-style: none;
 		font-size: .75em;
 
@@ -132,10 +202,19 @@
 
 	.mnm_reset {
 		padding: 0 !important;
-		margin: 0 !important;
+		margin: 0 0 0 .25em !important;
+		border: 0;
+		background-color: transparent;
+		cursor: pointer;
 
 		&:after {
-			font-size: initial;
+			font-size: .875em;
+			margin-left: .5em;
+		}
+
+		&:hover {
+			text-decoration: underline;
+			cursor: pointer;
 		}
 	}
 
@@ -143,14 +222,6 @@
 		margin-left: .5em;
 	}
 
-	&.valid {
-
-		.mnm_button_wrap {
-			display: flex;
-		}
-
-	}
-	
 }
 
 
@@ -160,6 +231,8 @@
  @media screen and (min-width: 568px) {
 
 	.mnm-mobile-container {
+		padding: 1em;
+
 		.mnm-mobile-content {
 			display: flex;
 			justify-content: space-between;
@@ -168,14 +241,37 @@
 				margin-bottom: 0;
 			}
 
+			&.context-add-to-cart {
+				&.fails_validation {
+					.mnm_button_wrap .single_add_to_cart_button {
+						opacity: 1; // Always show button in non-mobile.
+						animation: none;
+						display: inline-block;
+					}
+				}
+			}
 		}
 
-		.column.col-2 { 
-			text-align: right;
+		.column.col-1 {
+			flex-grow: 2;
+		}
+		.column.col-2 {
+			flex-grow: 1;
+			margin-left: auto;
 
 			.quantity {
 				display: inline-block;
 				float: none;
+			}
+
+			.mnm_button_wrap {
+				margin-top: 0;
+				text-align: right;
+			}
+
+			.single_add_to_cart_button, .wc-mnm-edit-subscription-actions {
+				display: inline-block;
+				width: initial;
 			}
 		}
 	}
@@ -188,6 +284,7 @@
  @media screen and (min-width: 1240px) {
 
 	.mnm-mobile-container {
+
 		.mnm-mobile-content {
 			font-size: 1.2em;
 		}

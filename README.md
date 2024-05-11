@@ -16,7 +16,7 @@ Experimental mini-extension for [WooCommerce Mix and Match](https://woocommerce.
 
 1. This is proof of concept and not officially supported in any way.
 2. Not ideal for use with Name Your Price or Product Addons.
-3. Requires Mix and Match 2.4+
+3. Requires Mix and Match 2.7+
 
 ### Styling the progress bar
 
