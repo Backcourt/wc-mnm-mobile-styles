@@ -1,7 +1,7 @@
 {
 	"title": "WooCommerce Mix and Match Products - Mobile Styles",
 	"name": "wc-mnm-mobile-styles",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "Turns the Mix and Match counter message into a sticky footer",
 	"main": "Gruntfile.js",
 	"license": "GPL-3.0",
