@@ -136,14 +136,7 @@
 		&.context-add-to-cart {
 			&.fails_validation {
 				.mnm_button_wrap .single_add_to_cart_button {
-					opacity: 0; // Hide the button until valid.
 					display:  none;
-				}
-			}
-		
-			&.passes_validation {
-				.mnm_button_wrap .single_add_to_cart_button {
-					opacity: 1;
 				}
 			}
 		}
@@ -244,8 +237,6 @@
 			&.context-add-to-cart {
 				&.fails_validation {
 					.mnm_button_wrap .single_add_to_cart_button {
-						opacity: 1; // Always show button in non-mobile.
-						animation: none;
 						display: inline-block;
 					}
 				}
