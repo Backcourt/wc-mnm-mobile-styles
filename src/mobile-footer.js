@@ -161,8 +161,6 @@ const MobileFooter = () => {
 			// Define the element that we will test is in view... different between simple|variable mnm.
 			const wrapper = null !== variation ? variation : form;
 
-			const { isVisible } = { stateProps };
-
 			const inViewport = isInViewport(wrapper);
 
 			updateStateProps({ 'isVisible': inViewport });
