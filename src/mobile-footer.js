@@ -24,6 +24,7 @@ import { isInViewport, getProductRoute } from './utils';
 const MobileFooter = () => {
 	// Track all props in state. This is a bit of a hack to get around the fact that we can't use useSelect for simple mix and match yet.
 	const [stateProps, setStateProps] = useState({
+		addToCartButtonText: _x('Add to cart', '[Frontend]', 'wc-mnm-mobile-styles'),
 		container: null,
 		containerId: 0,
 		context: 'add-to-cart',
@@ -104,10 +105,15 @@ const MobileFooter = () => {
 			// Get validation context from rendered form.
 			const context          = form.getAttribute('data-validation_context') ?? 'add-to-cart';
 
+			// Get the Add to cart button text from the rendered form.
+			const addToCartButton  = form.querySelector('button.single_add_to_cart_button');
+			const loadedButtonText = addToCartButton ? addToCartButton.innerText.trim() : _x('Add to cart', '[Frontend]', 'wc-mnm-mobile-styles');
+			
 			const minContainerSize = theContainer?.extensions?.mix_and_match?.min_container_size ?? 0;
 			const maxContainerSize = theContainer?.extensions?.mix_and_match?.max_container_size ?? '';
 
 			updateStateProps({
+				addToCartButtonText: loadedButtonText,
 				context: context,
 				minContainerSize: minContainerSize,
 				maxContainerSize: maxContainerSize,
@@ -175,7 +181,7 @@ const MobileFooter = () => {
 	}, []);
 
 	// Pull out a few props that we need in this file.
-	const { container, context, passesValidation, isVisible } = stateProps;
+	const { addToCartButtonText, container, context, passesValidation, isVisible } = stateProps;
 
 	// Don't show anything until there's a container ID set and the form is in view.
 	if (!container || !isVisible) {
@@ -195,7 +201,9 @@ const MobileFooter = () => {
 			<div className="column col-2">
 				<div className="mnm_button_wrap">
 					<AddToCartButton
+						addToCartText={addToCartButtonText}
 						container={container}
+						context={context}
 						passesValidation={passesValidation}
 					/>
 					<a href="#wc-mnm-child-items" className="screen-reader-text">

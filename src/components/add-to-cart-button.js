@@ -3,7 +3,7 @@
  */
 import { _x } from '@wordpress/i18n';
 
-export default function AddToCartButton( { container, passesValidation } )
+export default function AddToCartButton( { addToCartText, container, context, passesValidation } )
 {
 	if (! container.id ) {
 		return null;
@@ -33,9 +33,6 @@ export default function AddToCartButton( { container, passesValidation } )
 	if (! inStock || ! isPurchasable ) {
 		return null;
 	}
-
-	// By default, the store API gets the loop's add to cart text, which we modify to be select options so we need a different text.
-	const addToCartText = container?.extensions?.mix_and_match.single_add_to_cart_text ??  _x('Add to cart', '[Frontend]', 'wc-mnm-mobile-styles');
 
 	return (
 		<button
