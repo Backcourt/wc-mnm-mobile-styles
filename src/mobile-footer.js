@@ -80,17 +80,40 @@ const MobileFooter = () => {
 		[]
 	);
 
-	// Detect a container change/definition. Certain props only change this one time.
+	// Detect a container change/definition from the data store and relay it to state props.
 	useEffect(() => {
+
 		if (stateProps.container?.id !== storeProps.container?.id) {
 			updateStateProps({
 				container: storeProps.container,
-				context: storeProps.context,
-				minContainerSize: storeProps.minContainerSize,
-				maxContainerSize: storeProps.maxContainerSize,
 			});
 		}
 	}, [storeProps.container]);
+
+	// Detect a container change/definition in the state Props. Certain props only change this one time.
+	useEffect(() => {
+
+		const theContainer = storeProps.container?.id ? storeProps.container : stateProps.container;
+
+		if (theContainer?.id) {
+
+			// Get the parent product ID if the container is a variation.
+			const formId = theContainer.parent > 0 ? theContainer.parent : theContainer.id
+			const form   = document.querySelector(`form.mnm_form[data-product_id = "${formId}"]`);
+
+			// Get validation context from rendered form.
+			const context          = form.getAttribute('data-validation_context') ?? 'add-to-cart';
+
+			const minContainerSize = theContainer?.extensions?.mix_and_match?.min_container_size ?? 0;
+			const maxContainerSize = theContainer?.extensions?.mix_and_match?.max_container_size ?? '';
+
+			updateStateProps({
+				context: context,
+				minContainerSize: minContainerSize,
+				maxContainerSize: maxContainerSize,
+			});
+		}
+	}, [stateProps.container]);
 
 	// Listen for changes to mix and match configuration.
 	// Variable Mix and Match should use useSelect with the data store, but an event listener will work for both until simple MNM gets a data store too.
@@ -104,29 +127,19 @@ const MobileFooter = () => {
 		// For simple Mix and Match, there's no data store yet.
 		if (!stateProps.container?.id && stateProps.containerId > 0) {
 
-			const form = document.querySelector(`form.mnm_form[data-container_id="${stateProps.containerId}"]`);
-
+			// Todo: Preload this?
 			apiFetch({
 				path: getProductRoute(stateProps.containerId)
 			}).then((container) => {
-				if (container && container.id) {
-
-					const context = form.getAttribute('data-validation_context') ?? 'add-to-cart';
-					const minContainerSize = container?.extensions?.mix_and_match?.min_container_size ?? 0;
-					const maxContainerSize = container?.extensions?.mix_and_match?.max_container_size ?? '';
-			
+				if (container && container.id) {			
 					updateStateProps({
 						container: container,
-						containerId: container.id,
-						context: context,
-						minContainerSize: minContainerSize,
-						maxContainerSize: maxContainerSize,
 					});
 				}
 			}).catch((error) => {
 				window.console.debug('error', error);
 			});
-		
+
 		}
 	}, [stateProps.containerId]);
 
