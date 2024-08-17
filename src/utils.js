@@ -44,6 +44,6 @@ export const getProductRoute = (containerId) => {
 	 */
 	const queryArgs = applyFilters( 'wc.mnm.container-route-params', Object.fromEntries(params.entries() ), containerId );
 
-	return addQueryArgs(baseUrl, queryArgs );
+	return addQueryArgs( baseUrl, queryArgs );
 
 }
