@@ -167,6 +167,9 @@ class WC_MNM_Mobile_Styles {
 
 		// Cart and Checkout Blocks.
 		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', plugin_basename( __FILE__ ), true );
+
+		// Remote Logging compatibility.
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'remote_logging', plugin_basename( __FILE__ ), true );
 	}
 
 	/*-----------------------------------------------------------------------------------*/
