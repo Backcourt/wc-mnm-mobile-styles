@@ -8,17 +8,11 @@ project.properties
 sftp-config.json
 .idea
 
-# Temp
-.bak
-
-# Build
+# Grunt
 /node_modules/
 /deploy/
 /build/
-/vendor/
 npm-debug.log
-package-lock.json
-composer.lock
 
 # Sass
 .sass-cache/
@@ -37,11 +31,22 @@ Thumbs.db
 
 # Logs
 /logs
-
+package-lock.json
 
 # Compiled assets
+assets/**
 languages/
-assets/
+none
 
 # Editor
 .vscode/
+
+# Composer
+/vendor/*
+/packages/*
+
+# Temporary files
+*.bak
+
+# BrianHenryIE/Strauss - PHP Namespace Renamer
+bin/strauss.phar

@@ -2,11 +2,12 @@
 
 Contributors: helgatheviking
 Tags: woocommerce, product, bundle, bundles, kits, simple, categories
-Requires at least: 4.9
-Tested up to: 5.2
 Stable tag: 2.0.2
-WC requires at least: 6.0.0
-WC tested up to: 7.0.0
+Requires PHP: 8.0
+Requires at least: 6.5
+Tested up to: 6.7
+WC requires at least: 9.4.0
+WC tested up to: 9.6.0
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,4 +15,12 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Turns the Mix and Match counter message into a sticky footer
 
+== Changelog ==
+
+
+= 2.0.0  =
+* Fix: Update for Mix and Match 2.0 Compatibility
+
+= 1.0.0 =
+* Initial release.
 

@@ -10,8 +10,8 @@
  * Text Domain: wc-mnm-mobile-styles
  * Domain Path: /languages/
  *
- * Requires at least: 6.2.0
- * Tested up to: 6.4.0
+ * Requires at least: 6.6.0
+ * Tested up to: 6.7.0
  *
  * WC requires at least: 6.0.0
  * WC tested up to: 7.0.0
@@ -29,6 +29,17 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use \Backcourt\MNMMobileStyles\Vendor\Fragen;
+
+ /**
+  * Add Git Updater Lite
+  */
+require_once __DIR__ . '/packages/autoload.php';
+add_filter( 'gul_update_server', function () {
+	return 'https://backcourt.io';
+});
+( new Fragen\Git_Updater\Lite( __FILE__ ) )->run();
 
 class WC_MNM_Mobile_Styles {
 
