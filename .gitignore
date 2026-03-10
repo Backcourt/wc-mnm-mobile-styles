@@ -31,7 +31,6 @@ Thumbs.db
 
 # Logs
 /logs
-package-lock.json
 
 # Compiled assets
 assets/**
