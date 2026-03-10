@@ -1,34 +1,37 @@
-const ProductPrice = ( { totalPrice } ) => {
+const ProductPrice = ( { container, totalPrice } ) => {
+
+    // Use raw prices with wc.priceFormat.
+    const price = container?.display_price ?? totalPrice?.price;
+    const regularPrice = container?.display_regular_price ?? totalPrice?.regular_price;
+
+    if ( price === undefined || price === null ) {
+        return null;
+    }
+
     // Generate a strikethrough for sale price.
-    if (totalPrice.regular_price !== totalPrice.price ) {
+    if ( regularPrice && regularPrice !== price ) {
         return (
-        <span className="price">
-        <del aria-hidden="true">
-        <span className="woocommerce-Price-amount amount">
-         <bdi>
-        { wc.priceFormat.formatPrice(
-            totalPrice.regular_price
-        ) }
-         </bdi>
-        </span>
-        </del>
-        <ins>
-        <span className="woocommerce-Price-amount amount">
-         <bdi>
-          { wc.priceFormat.formatPrice(totalPrice.price) }
-         </bdi>
-        </span>
-        </ins>
-        </span>
+            <span className="price">
+                <del aria-hidden="true">
+                    <span className="woocommerce-Price-amount amount">
+                        <bdi>{ wc.priceFormat.formatPrice( regularPrice ) }</bdi>
+                    </span>
+                </del>
+                <ins>
+                    <span className="woocommerce-Price-amount amount">
+                        <bdi>{ wc.priceFormat.formatPrice( price ) }</bdi>
+                    </span>
+                </ins>
+            </span>
         );
     }
 
     return (
-    <span className="price">
-    <span className="woocommerce-Price-amount amount">
-                <bdi>{ wc.priceFormat.formatPrice(totalPrice.price) }</bdi>
-    </span>
-    </span>
+        <span className="price">
+            <span className="woocommerce-Price-amount amount">
+                <bdi>{ wc.priceFormat.formatPrice( price ) }</bdi>
+            </span>
+        </span>
     );
 };
 

@@ -36,7 +36,7 @@ export default function StatusUI( props )
     return (
     <>
         <div className="mnm_price">
-            <ProductPrice totalPrice={ totalPrice } />
+            <ProductPrice container={ container } totalPrice={ totalPrice } />
             <StatusCounter
                 maxContainerSize={ maxContainerSize }
                 totalPrice={ totalPrice }

@@ -1,42 +1,41 @@
 {
-	"title": "WooCommerce Mix and Match Products - Mobile Styles",
-	"name": "wc-mnm-mobile-styles",
-	"version": "2.0.2",
-	"description": "Turns the Mix and Match counter message into a sticky footer",
-	"main": "Gruntfile.js",
-	"license": "GPL-3.0",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/kathyisawesome/wc-mnm-mobile-styles"
-	},
-	"bugs": {
-		"url": "https://github.com/kathyisawesome/wc-mnm-mobile-styles/issues"
-	},
-	"author": "helgatheviking",
-	"devDependencies": {
-		"@woocommerce/dependency-extraction-webpack-plugin": "^3.0.1",
-		"@wordpress/scripts": "^27.8.0",
-		"autoprefixer": "^10.4.19",
-		"classnames": "^2.5.1",
-		"grunt": "~1.6.1",
-		"grunt-contrib-clean": "^2.0.1",
-		"grunt-contrib-compress": "^2.0.0",
-		"grunt-contrib-copy": "^1.0.0",
-		"grunt-contrib-cssmin": "^5.0.0",
-		"grunt-sass": "^3.1.0",
-		"grunt-text-replace": "^0.4.0",
-		"interweave": "^13.1.0",
-		"load-grunt-tasks": "~5.1.0"
-	},
-	"scripts": {
-		"build": "wp-scripts build",
-		"format": "wp-scripts format",
-		"lint:css": "wp-scripts lint-style src/**/*.scss",
-		"lint:js": "wp-scripts lint-js ./src",
-		"makepot": "composer run-script makepot",
-		"betarelease": "npm run release",
-		"release": "npm run build && npm run makepot && grunt release",
-		"start": "wp-scripts start",
-		"zip": "npm run release && grunt zip"
-	}
+  "title": "WooCommerce Mix and Match Products - Mobile Styles",
+  "name": "wc-mnm-mobile-styles",
+  "version": "2.0.2",
+  "description": "Turns the Mix and Match counter message into a sticky footer",
+  "main": "Gruntfile.js",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kathyisawesome/wc-mnm-mobile-styles"
+  },
+  "bugs": {
+    "url": "https://github.com/kathyisawesome/wc-mnm-mobile-styles/issues"
+  },
+  "author": "helgatheviking",
+  "devDependencies": {
+    "@woocommerce/dependency-extraction-webpack-plugin": "^3.0.1",
+    "@wordpress/scripts": "^27.8.0",
+    "autoprefixer": "^10.4.19",
+    "classnames": "^2.5.1",
+    "grunt": "~1.6.1",
+    "grunt-contrib-clean": "^2.0.1",
+    "grunt-contrib-compress": "^2.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^5.0.0",
+    "grunt-sass": "^3.1.0",
+    "grunt-text-replace": "^0.4.0",
+    "load-grunt-tasks": "~5.1.0"
+  },
+  "scripts": {
+    "build": "wp-scripts build",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style src/**/*.scss",
+    "lint:js": "wp-scripts lint-js ./src",
+    "makepot": "composer run-script makepot",
+    "betarelease": "npm run release",
+    "release": "npm run build && npm run makepot && grunt release",
+    "start": "wp-scripts start",
+    "zip": "npm run release && grunt zip"
+  }
 }

@@ -100,7 +100,13 @@ const MobileFooter = () => {
 
 			// Get the parent product ID if the container is a variation.
 			const formId = theContainer.parent > 0 ? theContainer.parent : theContainer.id
-			const form   = document.querySelector(`form.mnm_form[data-product_id = "${formId}"]`);
+			const form   = document.querySelector(`form.mnm_form[data-product_id = "${formId}"]`) || 
+			               document.querySelector(`form.variable_mnm_form[data-product_id = "${formId}"]`);
+
+			// Guard against form not being found.
+			if ( ! form ) {
+				return;
+			}
 
 			// Get validation context from rendered form.
 			const context          = form.getAttribute('data-validation_context') ?? 'add-to-cart';
@@ -109,8 +115,9 @@ const MobileFooter = () => {
 			const addToCartButton  = form.querySelector('button.single_add_to_cart_button');
 			const loadedButtonText = addToCartButton ? addToCartButton.innerText.trim() : _x('Add to cart', '[Frontend]', 'wc-mnm-mobile-styles');
 			
-			const minContainerSize = theContainer?.extensions?.mix_and_match?.min_container_size ?? 0;
-			const maxContainerSize = theContainer?.extensions?.mix_and_match?.max_container_size ?? '';
+			// Support new format (direct properties) with backward compatibility (extensions.mix_and_match).
+			const minContainerSize = theContainer?.min_container_size ?? theContainer?.extensions?.mix_and_match?.min_container_size ?? 0;
+			const maxContainerSize = theContainer?.max_container_size ?? theContainer?.extensions?.mix_and_match?.max_container_size ?? '';
 
 			updateStateProps({
 				addToCartButtonText: loadedButtonText,
