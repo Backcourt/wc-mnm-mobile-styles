@@ -2,7 +2,7 @@
 
 Contributors: helgatheviking
 Tags: woocommerce, product, bundle, bundles, kits, simple, categories
-Stable tag: 2.0.2
+Stable tag: 2.0.3-beta.1
 Requires PHP: 8.0
 Requires at least: 6.5
 Tested up to: 6.7
