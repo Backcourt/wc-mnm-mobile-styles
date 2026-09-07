@@ -15,7 +15,7 @@
   "author": "helgatheviking",
   "devDependencies": {
     "@woocommerce/dependency-extraction-webpack-plugin": "^4.0.0",
-    "@wordpress/scripts": "^31.6.0",
+    "@wordpress/scripts": "^34.2.0",
     "autoprefixer": "^10.4.27",
     "classnames": "^2.5.1",
     "grunt": "~1.6.3",
