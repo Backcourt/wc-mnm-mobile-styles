@@ -62,8 +62,6 @@ class WC_MNM_Mobile_Styles {
 		// Simple MNM support.
         add_action( 'woocommerce_mix-and-match_add_to_cart', array( __CLASS__, 'attach_hooks' ), 0 );
     
-		// Variable MNM support.
-		add_action( 'woocommerce_variable-mix-and-match_add_to_cart', array( __CLASS__, 'attach_hooks' ), 0 );
 
 		// Subscription editing
 		add_action( 'wc_mnm_subscription_editing_enqueue_scripts', array( __CLASS__, 'attach_hooks' ), 0 );
