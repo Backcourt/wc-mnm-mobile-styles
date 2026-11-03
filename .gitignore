@@ -32,8 +32,8 @@ Thumbs.db
 # Logs
 /logs
 
-# Compiled assets
-assets/css/
+# Compiled assets. All CSS is generated from assets/scss.
+*.css
 assets/js/**/*.min.js
 languages/
 none

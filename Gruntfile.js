@@ -25,9 +25,9 @@ module.exports = function ( grunt ) {
 				files: [
 					{
 						expand: true,
-						cwd: '<%= dirs.scss %>/frontend',
-						src: [ '*.scss' ],
-						dest: '<%= dirs.css %>/frontend',
+						cwd: '<%= dirs.scss %>',
+						src: [ '**/*.scss', '!**/_*.scss' ],
+						dest: '<%= dirs.css %>',
 						ext: '.css',
 					},
 				],
@@ -40,7 +40,7 @@ module.exports = function ( grunt ) {
 				processors: [ require( 'autoprefixer' ) ],
 			},
 			dist: {
-				src: [ '<%= dirs.css %>/frontend/*.css', '!<%= dirs.css %>/frontend/*.min.css' ],
+				src: [ '<%= dirs.css %>/**/*.css', '!<%= dirs.css %>/**/*.min.css' ],
 			},
 		},
 
@@ -49,9 +49,9 @@ module.exports = function ( grunt ) {
 			dist: {
 				expand: true,
 				src: [
-					'<%= dirs.css %>/frontend/*.css',
-					'!<%= dirs.css %>/frontend/*-rtl.css',
-					'!<%= dirs.css %>/frontend/*.min.css',
+					'<%= dirs.css %>/**/*.css',
+					'!<%= dirs.css %>/**/*-rtl.css',
+					'!<%= dirs.css %>/**/*.min.css',
 				],
 				ext: '-rtl.css',
 			},
@@ -63,7 +63,7 @@ module.exports = function ( grunt ) {
 				files: [
 					{
 						expand: true,
-						src: [ '<%= dirs.css %>/frontend/*.css', '!<%= dirs.css %>/frontend/*.min.css' ],
+						src: [ '<%= dirs.css %>/**/*.css', '!<%= dirs.css %>/**/*.min.css' ],
 						ext: '.min.css',
 					},
 				],
@@ -103,7 +103,7 @@ module.exports = function ( grunt ) {
 		// Watch changes for assets.
 		watch: {
 			css: {
-				files: [ '<%= dirs.scss %>/frontend/*.scss' ],
+				files: [ '<%= dirs.scss %>/**/*.scss' ],
 				tasks: [ 'css' ],
 			},
 			js: {
@@ -117,6 +117,7 @@ module.exports = function ( grunt ) {
 		// Remove any files in zip destination and build folder
 		clean: {
 			main: [ 'build/**' ],
+			css: [ '<%= dirs.css %>/**' ],
 		},
 
 		// Copy the plugin into the build directory
@@ -197,10 +198,10 @@ module.exports = function ( grunt ) {
 
 	// Register tasks.
 	grunt.registerTask( 'js', [ 'jshint', 'uglify' ] );
-	grunt.registerTask( 'css', [ 'sass', 'postcss', 'rtlcss', 'cssmin' ] );
+	grunt.registerTask( 'css', [ 'clean:css', 'sass', 'postcss', 'rtlcss', 'cssmin' ] );
 	grunt.registerTask( 'assets', [ 'js', 'css' ] );
 	grunt.registerTask( 'default', [ 'assets' ] );
-	grunt.registerTask( 'zip', [ 'clean', 'copy', 'compress', 'clean' ] );
+	grunt.registerTask( 'zip', [ 'clean:main', 'copy', 'compress', 'clean:main' ] );
 	grunt.registerTask( 'build', [ 'replace', 'assets' ] );
-	grunt.registerTask( 'release', [ 'build', 'clean', 'copy', 'compress' ] );
+	grunt.registerTask( 'release', [ 'build', 'clean:main', 'copy', 'compress' ] );
 };
