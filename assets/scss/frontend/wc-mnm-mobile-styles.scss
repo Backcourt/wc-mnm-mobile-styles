@@ -1,0 +1,271 @@
+/**
+ * Mix and Match sticky footer.
+ */
+
+/**
+ * The form's own status and buttons. Hidden only once the footer stands in for them, so the form still works without the script.
+ */
+.mnm_form.wc-mnm-has-mobile-footer {
+
+	.mnm_status > *:not(.mnm_availability) {
+		display: none !important;
+	}
+
+	.single_add_to_cart_button,
+	.mnm_reset,
+	.mnm_button_wrap .quantity {
+		display: none !important;
+	}
+
+}
+
+.wc-mnm-has-mobile-footer .wc-mnm-edit-container-shop_subscription .wc-mnm-edit-subscription-actions {
+	display: none;
+}
+
+/**
+ * Leave room at the end of the page, so the last items can scroll clear of the footer.
+ */
+body.wc-mnm-has-mobile-footer {
+	padding-bottom: var(--wc-mnm-mobile-footer-height, 0);
+	scroll-padding-bottom: var(--wc-mnm-mobile-footer-height, 0);
+}
+
+/**
+ * Footer.
+ */
+.mnm-mobile-container {
+
+	background: var(--wp--preset--color--base, #fff);
+	color: var(--wp--preset--color--contrast, inherit);
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 999;
+	padding: 1em;
+	overflow: visible;
+	box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+
+	// Slides down out of view, and is hidden from screen readers and the keyboard once it has.
+	transform: translateY(100%);
+	visibility: hidden;
+	transition: transform 0.3s ease-in-out, visibility 0s linear 0.3s;
+
+	&.is-visible {
+		transform: translateY(0);
+		visibility: visible;
+		transition: transform 0.3s ease-in-out, visibility 0s linear 0s;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+
+		&.is-visible {
+			transition: none;
+		}
+	}
+
+	[hidden] {
+		display: none !important;
+	}
+
+	.column {
+		min-width: 0;
+	}
+
+	progress.mnm-container-progress {
+		display: block;
+		margin: 0.25em 0;
+	}
+
+	progress.mnm-container-progress[value] {
+		-webkit-appearance: none;
+		appearance: none;
+		accent-color: var(--wp--preset--color--contrast, #222);
+		border: 1px solid lightgray;
+		max-width: 17em;
+		height: 0.25em;
+		width: 100%;
+	}
+
+	progress.mnm-container-progress::-webkit-progress-bar {
+		background-color: transparent;
+	}
+
+	progress.mnm-container-progress::-webkit-progress-value {
+		background-color: var(--wp--preset--color--contrast, #222);
+		transition: width 0.5s;
+	}
+
+	progress.mnm-container-progress::-moz-progress-bar {
+		background-color: var(--wp--preset--color--contrast, #222);
+	}
+
+	.mnm-mobile-content {
+		margin-top: 0;
+		margin-bottom: 0;
+
+		// On small screens an invalid container shows its message instead of a button that can't be used.
+		&.context-add-to-cart.fails_validation {
+			.wc-mnm-mobile-footer__add-to-cart {
+				display: none;
+			}
+		}
+	}
+
+	.mnm_button_wrap {
+		margin-top: 0.5em;
+
+		&::after {
+			display: table;
+			content: " ";
+			clear: both;
+		}
+	}
+
+	.wc-mnm-mobile-footer__add-to-cart {
+		transition: opacity 0.3s ease-in-out;
+		margin-top: 0 !important;
+		width: 100%;
+
+		&.disabled,
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+
+		&.loading {
+			opacity: 0.25;
+		}
+	}
+
+	.mnm_price {
+		display: inline-block;
+		margin: 0 0.25em 0 0;
+
+		.price {
+			display: inline;
+			margin: 0;
+			font-size: inherit;
+		}
+	}
+
+	.mnm_message {
+		display: block;
+	}
+
+	.mnm_message_content {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		font-size: 0.75em;
+
+		li {
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+
+	.mnm_availability,
+	.mnm_container_unavailable {
+		font-size: 0.75em;
+
+		p {
+			margin: 0;
+		}
+	}
+
+	.wc-mnm-mobile-footer__reset {
+		padding: 0;
+		margin: 0 0 0 0.25em;
+		border: 0;
+		background-color: transparent;
+		color: inherit;
+		font-size: 0.875em;
+		text-decoration: underline;
+		cursor: pointer;
+
+		&:hover,
+		&:focus {
+			text-decoration: none;
+		}
+	}
+
+	.wc-mnm-mobile-footer__cancel {
+		margin-top: 0.5em;
+		width: 100%;
+	}
+
+}
+
+/**
+ * Not Mobile
+ */
+@media screen and (min-width: 568px) {
+
+	.mnm-mobile-container {
+
+		.mnm-mobile-content {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1em;
+
+			.mnm_message_content {
+				margin-bottom: 0;
+			}
+
+			&.context-add-to-cart.fails_validation {
+				.wc-mnm-mobile-footer__add-to-cart {
+					display: inline-block;
+				}
+			}
+		}
+
+		.column.col-1 {
+			flex-grow: 2;
+		}
+
+		.column.col-2 {
+			flex-grow: 1;
+			margin-left: auto;
+
+			.mnm_button_wrap {
+				margin-top: 0;
+				text-align: right;
+			}
+
+			.wc-mnm-mobile-footer__add-to-cart,
+			.wc-mnm-mobile-footer__cancel {
+				display: inline-block;
+				width: auto;
+				margin-top: 0;
+			}
+
+			.wc-mnm-mobile-footer__cancel {
+				margin-left: 0.5em;
+			}
+		}
+	}
+
+}
+
+/**
+ * Desktop
+ */
+@media screen and (min-width: 1240px) {
+
+	.mnm-mobile-container {
+
+		.mnm-mobile-content {
+			font-size: 1.2em;
+		}
+
+		.mnm_button_wrap .button {
+			padding: 1em 1.2em;
+		}
+
+	}
+
+}
