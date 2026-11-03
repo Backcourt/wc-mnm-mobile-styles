@@ -114,6 +114,16 @@ class WC_MNM_Mobile_Styles {
 				'strategy'  => 'defer',
 			)
 		);
+
+		wp_localize_script(
+			'wc_mnm_mobile',
+			'wc_mnm_mobile_params',
+			array(
+				'i18n_plans'       => _x( 'Purchase options', '[Frontend]', 'wc-mnm-mobile-styles' ),
+				/* translators: Sale price in a dropdown option. %p: Sale price. %r: Regular price. */
+				'i18n_sale_format' => _x( '%p (was %r)', '[Frontend]', 'wc-mnm-mobile-styles' ),
+			)
+		);
 	}
 
 	/**

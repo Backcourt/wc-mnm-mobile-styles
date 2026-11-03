@@ -23,6 +23,7 @@ Turns the Mix and Match counter message into a sticky footer
 * Important: Removed Variable Mix and Match support. Use Mix and Match 3.0's packages instead.
 * New: The footer follows a container's package, its size, price and progress update when the shopper picks another one.
 * New: Template single-product/mnm/mobile-footer.php to override the footer markup.
+* New: All Products for Subscriptions plans show in the footer, as a toggle for one plan or a dropdown for several, and stay in sync with the form.
 * New: The page leaves room at the bottom for the footer, so the last items can scroll clear of it.
 * Tweak: The form's own status and buttons are only hidden once the footer has taken over, so the form still works if the script doesn't load.
 * Tweak: The footer is hidden from screen readers and the keyboard while it's out of view.

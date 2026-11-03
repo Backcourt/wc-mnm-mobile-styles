@@ -36,6 +36,8 @@ body.wc-mnm-has-mobile-footer {
  */
 .mnm-mobile-container {
 
+	--wc-mnm-mobile-footer-accent: var(--wp--preset--color--contrast, #222);
+
 	background: var(--wp--preset--color--base, #fff);
 	color: var(--wp--preset--color--contrast, inherit);
 	position: fixed;
@@ -197,6 +199,79 @@ body.wc-mnm-has-mobile-footer {
 		width: 100%;
 	}
 
+	// Subscription plans, mirrored from the form: a segmented toggle for radios, a compact dropdown for selects.
+	.wc-mnm-mobile-footer__plans {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5em;
+		margin-bottom: 0.5em;
+		font-size: 0.875em;
+	}
+
+	.wc-mnm-mobile-footer__plan--radio {
+		display: inline-flex;
+		flex-wrap: wrap;
+		border: 1px solid var(--wc-mnm-mobile-footer-accent);
+		border-radius: 999px;
+		overflow: hidden;
+	}
+
+	// Doubled class to beat themes' button styles.
+	.wc-mnm-mobile-footer__plan-option.wc-mnm-mobile-footer__plan-option {
+		margin: 0;
+		padding: 0.4em 0.9em;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+		color: var(--wc-mnm-mobile-footer-accent);
+		font-size: inherit;
+		font-weight: 600;
+		line-height: 1.4;
+		cursor: pointer;
+
+		&:hover {
+			background: color-mix(in srgb, var(--wc-mnm-mobile-footer-accent) 10%, transparent);
+		}
+
+		// Sale prices and the price suffix, copied from the form's label.
+		del {
+			font-weight: normal;
+			opacity: 0.7;
+		}
+
+		ins {
+			text-decoration: none;
+		}
+
+		small {
+			font-size: 0.75em;
+			font-weight: normal;
+		}
+
+		&[aria-checked="true"] {
+			background: var(--wc-mnm-mobile-footer-accent);
+			color: var(--wp--preset--color--base, #fff);
+		}
+
+		&:focus {
+			outline: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--wc-mnm-mobile-footer-accent);
+			outline-offset: -4px;
+		}
+	}
+
+	.wc-mnm-mobile-footer__plan--select select {
+		max-width: 14em;
+		margin: 0;
+		padding: 0.35em 0.5em;
+		font-size: inherit;
+	}
+
 }
 
 /**
@@ -234,6 +309,10 @@ body.wc-mnm-has-mobile-footer {
 			.mnm_button_wrap {
 				margin-top: 0;
 				text-align: right;
+			}
+
+			.wc-mnm-mobile-footer__plans {
+				justify-content: flex-end;
 			}
 
 			.wc-mnm-mobile-footer__add-to-cart,

@@ -59,6 +59,8 @@ $button_class = wp_theme_get_element_class_name( 'button' );
 
 			<div class="mnm_button_wrap wc-mnm-mobile-footer__actions">
 
+				<div class="wc-mnm-mobile-footer__plans" hidden></div>
+
 				<button type="button" id="wc-mnm-footer-add-to-cart" class="wc-mnm-mobile-footer__add-to-cart button alt <?php echo esc_attr( $button_class ); ?>"><?php echo esc_html_x( 'Add to cart', '[Frontend]', 'wc-mnm-mobile-styles' ); ?></button>
 
 				<button type="button" class="wc-mnm-mobile-footer__cancel button <?php echo esc_attr( $button_class ); ?>" hidden><?php echo esc_html_x( 'Cancel edit', '[Frontend]', 'wc-mnm-mobile-styles' ); ?></button>
