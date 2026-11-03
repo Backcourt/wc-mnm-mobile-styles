@@ -1,5 +1,5 @@
 # Add build zip to GitHub releases.
-# Version: 1.3.0
+# Version: 2.0.0
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 name: Release
@@ -15,12 +15,11 @@ jobs:
     #
     # Performs the following steps:
     # - Checks out the repository.
-    # - Sets up PHP with Composer.
-    # - Logs debug information.
+    # - Sets up PHP with Composer and WP-CLI (WP-CLI generates the .pot file).
     # - Get Composer Cache Directory.
     # - Sets up Composer Caching.
     # - Logs debug information.
-    # - Install Composer dependencies with development dependencies.
+    # - Install Composer dependencies without development dependencies. Strauss (downloaded as a phar) prefixes them into packages/.
     # - Setup NodeJS.
     # - Install NPM dependencies.
     # - Get release version.
@@ -31,6 +30,8 @@ jobs:
     # - Build release:
     #    - Pre-release.
     #    - Stable.
+    # - Verify the release zip.
+    # - Extract release notes from the readme.txt changelog.
     # - Add package to GitHub releases.
 
     dist:
@@ -40,13 +41,13 @@ jobs:
             release: stable
         steps:
             - name: 'Checks out the repository.'
-              uses: 'actions/checkout@v4'
+              uses: 'actions/checkout@v7'
 
-            - name: 'Sets up PHP with Composer.'
+            - name: 'Sets up PHP with Composer and WP-CLI.'
               uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.3'
-                  tools: composer
+                  tools: composer, wp-cli
               env:
                   COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -56,10 +57,10 @@ jobs:
                   echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
             - name: 'Sets up Composer Caching.'
-              uses: 'actions/cache@v4'
+              uses: 'actions/cache@v6'
               with:
                   path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-php-composer-build-${{ hashFiles('**/composer.lock') }}
+                  key: ${{ runner.os }}-php-composer-build-${{ hashFiles('**/composer.json', '**/composer.lock') }}
                   restore-keys: |
                       ${{ runner.os }}-php-composer-build-
 
@@ -67,15 +68,16 @@ jobs:
               run: |
                   php --version
                   composer --version
+                  wp --allow-root --version
 
-            - name: 'Install Composer dependencies with development dependencies.'
+            - name: 'Install Composer dependencies without development dependencies.'
               run: |
-                  composer install --no-interaction --prefer-dist
+                  composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
             - name: 'Setup NodeJS.'
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v6
               with:
-                  node-version: '20'
+                  node-version-file: '.nvmrc'
                   cache: 'npm'
 
             - name: 'Install NPM dependencies.'
@@ -121,9 +123,45 @@ jobs:
               run: |
                   npm run release
 
+            - name: 'Verify the release zip.'
+              run: |
+                  zip="./deploy/${{ env.release_name }}-${{ env.release_tag }}.zip"
+                  dir="${{ env.release_name }}"
+                  if [ ! -f "$zip" ]; then
+                    echo "::error::Release zip not found at $zip"
+                    exit 1
+                  fi
+                  files="$(unzip -Z1 "$zip")"
+                  for file in packages/autoload.php assets/js/frontend/wc-mnm-mobile-styles.min.js assets/css/frontend/wc-mnm-mobile-styles.min.css languages/${{ env.release_name }}.pot; do
+                    if ! echo "$files" | grep -qx "$dir/$file"; then
+                      echo "::error::$file is missing from the release zip."
+                      exit 1
+                    fi
+                  done
+                  if echo "$files" | grep -q "strauss.phar\|^$dir/vendor/\|^$dir/node_modules/"; then
+                    echo "::error::Build tools or unprefixed vendor packages found in the release zip."
+                    exit 1
+                  fi
+
+            - name: 'Extract release notes from the readme.txt changelog.'
+              run: |
+                  notes="$RUNNER_TEMP/release-notes.md"
+                  # Print the lines under "= <release_tag> <date> =" up to the next version heading.
+                  awk -v ver="${{ env.release_tag }}" '
+                    { sub(/\r$/, "") }
+                    /^= / { if (found) exit; if ($2 == ver) { found = 1; next } }
+                    found && NF { print }
+                  ' readme.txt > "$notes"
+                  if ! grep -q '[^[:space:]]' "$notes"; then
+                    echo "::warning::No readme.txt changelog entry found for version ${{ env.release_tag }}. The release body will be empty."
+                  fi
+                  echo "release_notes=$notes" >> $GITHUB_ENV
+
             - name: 'Add package to GitHub releases.'
-              uses: softprops/action-gh-release@v2
+              uses: softprops/action-gh-release@v3
               with:
                   files: ./deploy/${{ env.release_name }}-${{ env.release_tag }}.zip
+                  body_path: ${{ env.release_notes }}
+                  prerelease: ${{ env.release_status == 'pre-release' }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
