@@ -21,6 +21,7 @@
  * GitHub Plugin URI: https://github.com/kathyisawesome/wc-mnm-mobile-styles
  * Primary Branch: trunk
  * Release Asset: true
+ * Update URI: https://www.backcourt.io
  *
  * Copyright: © 2024 Kathy Darling
  * License: GNU General Public License v3.0
@@ -38,9 +39,6 @@ use \Backcourt\MNMMobileStyles\Vendor\Fragen;
   * Add Git Updater Lite
   */
 require_once __DIR__ . '/packages/autoload.php';
-add_filter( 'gul_update_server', function () {
-	return 'https://backcourt.io';
-});
 ( new Fragen\Git_Updater\Lite( __FILE__ ) )->run();
 
 class WC_MNM_Mobile_Styles {

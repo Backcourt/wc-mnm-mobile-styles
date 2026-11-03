@@ -15,7 +15,7 @@
         "issues": "https://github.com/kathyisawesome/wc-mnm-mobile-styles/issues"
     },
     "require": {
-        "afragen/git-updater-lite": "^1"
+        "afragen/git-updater-lite": "^3"
     },
     "require-dev": {
         "woocommerce/woocommerce-sniffs": "^1.0",
