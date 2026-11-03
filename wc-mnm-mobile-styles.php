@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce Mix and Match - Mobile Styles
  * Plugin URI: https://woocommerce.com/products/woocommerce-mix-and-match-products/
  * Description: Turns the Mix and Match counter message into a sticky footer.
- * Version: 2.0.3-beta.1
+ * Version: 3.0.0-beta.1
  * Author: Kathy Darling
  * Author URI: http://kathyisawesome.com/
  *
@@ -15,6 +15,8 @@
  *
  * WC requires at least: 6.0.0
  * WC tested up to: 7.0.0
+ *
+ * Requires Plugins: woocommerce, woocommerce-mix-and-match-products
  *
  * GitHub Plugin URI: https://github.com/kathyisawesome/wc-mnm-mobile-styles
  * Primary Branch: trunk
@@ -43,8 +45,8 @@ add_filter( 'gul_update_server', function () {
 
 class WC_MNM_Mobile_Styles {
 
-	const REQ_MNM_VERSION = '2.7.0-beta.1';
-	const VERSION = '2.0.3-beta.1';
+	const REQ_MNM_VERSION = '3.0.0-alpha.2';
+	const VERSION = '3.0.0-beta.1';
 
 	/**
 	 * Whether the footer is needed on this page.
