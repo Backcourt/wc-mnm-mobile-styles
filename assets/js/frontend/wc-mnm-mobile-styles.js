@@ -118,9 +118,9 @@ const { state } = store( NAMESPACE, {
 		},
 
 		/**
-		 * The rule for the container's primary measure, ex: quantity or weight.
+		 * The container's own limits, in its validation mode's unit, ex: quantity or weight.
 		 *
-		 * @return {Object|null} { measure, min, max }
+		 * @return {Object|null} { min, max }
 		 */
 		get rule() {
 			const container = state.container;
@@ -129,7 +129,7 @@ const { state } = store( NAMESPACE, {
 				return null;
 			}
 
-			return container.rules.find( ( rule ) => rule.measure === container.primaryMeasure ) || container.rules[ 0 ] || null;
+			return container.validationRules[ 0 ] || null;
 		},
 
 		/**
@@ -148,7 +148,7 @@ const { state } = store( NAMESPACE, {
 				return 0;
 			}
 
-			return Math.min( state.container.selected[ state.rule.measure ] || 0, state.rule.max );
+			return Math.min( state.container.selected[ state.container.validationMode ] || 0, state.rule.max );
 		},
 
 		get buttonText() {
