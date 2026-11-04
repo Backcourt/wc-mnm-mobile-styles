@@ -4,7 +4,7 @@
 
 This is a developmental repo. Clone this repo and run `composer install && npm install && npm run build`   
 OR    
-[Download latest release](https://github.com/kathyisawesome/wc-mnm-mobile-styles/releases/latest/)
+[Download latest release](https://github.com/Backcourt/wc-mnm-mobile-styles/releases/latest/)
 
 ### What's This?
 

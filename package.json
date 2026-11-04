@@ -1,41 +1,44 @@
 {
   "title": "WooCommerce Mix and Match Products - Mobile Styles",
   "name": "wc-mnm-mobile-styles",
-  "version": "2.0.3-beta.1",
+  "version": "3.0.0-beta.1",
   "description": "Turns the Mix and Match counter message into a sticky footer",
   "main": "Gruntfile.js",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kathyisawesome/wc-mnm-mobile-styles"
+    "url": "https://github.com/Backcourt/wc-mnm-mobile-styles"
   },
   "bugs": {
-    "url": "https://github.com/kathyisawesome/wc-mnm-mobile-styles/issues"
+    "url": "https://github.com/Backcourt/wc-mnm-mobile-styles/issues"
   },
   "author": "helgatheviking",
   "devDependencies": {
-    "@woocommerce/dependency-extraction-webpack-plugin": "^5.1.0",
-    "@wordpress/scripts": "^34.2.0",
+    "@lodder/grunt-postcss": "^3.1.1",
     "autoprefixer": "^10.5.5",
-    "classnames": "^2.5.1",
     "grunt": "~1.6.3",
     "grunt-contrib-clean": "^2.0.1",
     "grunt-contrib-compress": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^5.0.0",
+    "grunt-contrib-jshint": "^3.2.0",
+    "grunt-contrib-uglify": "^5.2.2",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-rtlcss": "^2.0.2",
     "grunt-sass": "^4.1.0",
     "grunt-text-replace": "^0.4.0",
-    "load-grunt-tasks": "~5.1.0"
+    "jshint-stylish": "^2.2.1",
+    "load-grunt-tasks": "~5.1.0",
+    "postcss": "^8.5.28",
+    "sass": "^1.80.0"
   },
   "scripts": {
-    "build": "wp-scripts build",
-    "format": "wp-scripts format",
-    "lint:css": "wp-scripts lint-style src/**/*.scss",
-    "lint:js": "wp-scripts lint-js ./src",
+    "build": "grunt build",
+    "dev": "grunt assets",
+    "start": "grunt watch",
     "makepot": "composer run-script makepot",
     "betarelease": "npm run release",
-    "release": "npm run build && npm run makepot && grunt release",
-    "start": "wp-scripts start",
+    "release": "npm run makepot && grunt release",
     "zip": "npm run release && grunt zip"
   }
 }

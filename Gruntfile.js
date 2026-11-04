@@ -1,132 +1,208 @@
 module.exports = function ( grunt ) {
 
+	const sass = require( 'sass' );
 	require( 'load-grunt-tasks' )( grunt );
 
-    // Project configuration.
-    grunt.initConfig(
-        {
-            pkg: grunt.file.readJSON('package.json'),
+	// Project configuration.
+	grunt.initConfig( {
+		pkg: grunt.file.readJSON( 'package.json' ),
 
-            // # Build and release
+		// Setting folder templates.
+		dirs: {
+			css: 'assets/css',
+			js: 'assets/js',
+			scss: 'assets/scss',
+		},
 
-            // Remove any files in zip destination and build folder
-            clean: {
-                main: [ 'build/**' ],
-            },
+		// Compile all .scss files.
+		sass: {
+			compile: {
+				options: {
+					implementation: sass,
+					style: 'expanded',
+					sourceMap: false,
+				},
+				files: [
+					{
+						expand: true,
+						cwd: '<%= dirs.scss %>',
+						src: [ '**/*.scss', '!**/_*.scss' ],
+						dest: '<%= dirs.css %>',
+						ext: '.css',
+					},
+				],
+			},
+		},
 
-            // Copy the plugin into the build directory
-            copy: {
-                main: {
-                    src: [
-                        '**',
-                        '!node_modules/**',
-                        '!build/**',
-                        '!deploy/**',
-                        '!svn/**',
-                        '!**/*.zip',
-                        '!**/*.bak',
-                        '!wp-assets/**',
-                        '!package-lock.json',
-                        '!nyp-logo.png',
-                        '!screenshots/**',
-                        '!.git/**',
-                        '!**.md',
-                        '!Gruntfile.js',
-                        '!package.json',
-                        '!gitcreds.json',
-                        '!.gitcreds',
-                        '!.gitignore',
-                        '!.gitmodules',
-                        '!sftp-config.json',
-                        '!**.sublime-workspace',
-                        '!**.sublime-project',
-                        '!deploy.sh',
-                        '!**/*~',
-                        '!phpcs.xml',
-                        '!composer.json',
-                        '!composer.lock',
-                        '!vendor/**',
-                        '!none',
-                        '!bin/**',
-                    ],
-                    dest: 'build/',
-                },
-            },
+		// Autoprefixer.
+		postcss: {
+			options: {
+				processors: [ require( 'autoprefixer' ) ],
+			},
+			dist: {
+				src: [ '<%= dirs.css %>/**/*.css', '!<%= dirs.css %>/**/*.min.css' ],
+			},
+		},
 
-            // Make a zipfile.
-            compress: {
-                main: {
-                    options: {
-                        mode: 'zip',
-                        archive: 'deploy/<%= pkg.name %>-<%= pkg.version %>.zip',
-                    },
-                    expand: true,
-                    cwd: 'build/',
-                    dest: '<%= pkg.name %>',
-                    src: [ '**/*' ],
-                },
-            },
+		// Generate RTL .css files.
+		rtlcss: {
+			dist: {
+				expand: true,
+				src: [
+					'<%= dirs.css %>/**/*.css',
+					'!<%= dirs.css %>/**/*-rtl.css',
+					'!<%= dirs.css %>/**/*.min.css',
+				],
+				ext: '-rtl.css',
+			},
+		},
 
-            // # Internationalization
+		// Minify all .css files.
+		cssmin: {
+			dist: {
+				files: [
+					{
+						expand: true,
+						src: [ '<%= dirs.css %>/**/*.css', '!<%= dirs.css %>/**/*.min.css' ],
+						ext: '.min.css',
+					},
+				],
+			},
+		},
 
-            // Add text domain
-            addtextdomain: {
-                options: {
-                    textdomain: '<%= pkg.name %>', // Project text domain.
-                },
-                target: {
-                    files: {
-                        src: [
-                        '*.php',
-                        '**/*.php',
-                        '**/**/*.php',
-                        '!node_modules/**',
-                        '!deploy/**',
-                        ],
-                    },
-                },
-            },
+		// JavaScript linting with JSHint.
+		jshint: {
+			options: {
+				reporter: require( 'jshint-stylish' ),
+				jshintrc: '.jshintrc',
+			},
+			all: [ '<%= dirs.js %>/frontend/*.js', '!<%= dirs.js %>/frontend/*.min.js' ],
+		},
 
-            // bump version numbers (replace with version in package.json)
-            replace: {
-                Version: {
-                    src: [ 'readme.txt', '<%= pkg.name %>.php' ],
-                    overwrite: true,
-                    replacements: [
-                    {
-                        from: /Stable tag:.*$/m,
-                        to: 'Stable tag: <%= pkg.version %>',
-                    },
-                    {
-                        from: /Version:.*$/m,
-                        to: 'Version: <%= pkg.version %>',
-                    },
-                    {
-                        from: /public \$version = \'.*.'/m,
-                        to: "public $version = '<%= pkg.version %>'",
-                    },
-                    {
-                        from: /public \$version = \'.*.'/m,
-                        to: "public $version = '<%= pkg.version %>'",
-                    },
-                    {
-                        from: /public static \$version = \'.*.'/m,
-                        to: "public static $version = '<%= pkg.version %>'",
-                    },
-                    {
-                        from: /const VERSION = \'.*.'/m,
-                        to: "const VERSION = '<%= pkg.version %>'",
-                    },
-                    ],
-                },
-            },
-        } 
-    );
+		// Minify .js files.
+		uglify: {
+			options: {
+				banner: '/*! <%= pkg.title %> <%= pkg.version %> */\n',
+				module: true, // The frontend scripts are ES modules.
+				output: {
+					comments: /@license|@preserve|^!/,
+				},
+			},
+			frontend: {
+				files: [
+					{
+						expand: true,
+						cwd: '<%= dirs.js %>/frontend/',
+						src: [ '*.js', '!*.min.js' ],
+						dest: '<%= dirs.js %>/frontend/',
+						ext: '.min.js',
+					},
+				],
+			},
+		},
 
-    // Register tasks.
-    grunt.registerTask('default', [ 'replace' ]);
-    grunt.registerTask('zip', [ 'clean', 'copy', 'compress', 'clean' ]);
-    grunt.registerTask('docs', [ 'wp_readme_to_markdown' ]);
-    grunt.registerTask('build', [ 'replace', 'clean', 'copy' ]);
-    grunt.registerTask('release', [ 'build', 'compress' ]);
+		// Watch changes for assets.
+		watch: {
+			css: {
+				files: [ '<%= dirs.scss %>/**/*.scss' ],
+				tasks: [ 'css' ],
+			},
+			js: {
+				files: [ '<%= dirs.js %>/frontend/*.js', '!<%= dirs.js %>/frontend/*.min.js' ],
+				tasks: [ 'js' ],
+			},
+		},
+
+		// # Build and release
+
+		// Remove any files in zip destination and build folder
+		clean: {
+			main: [ 'build/**' ],
+			css: [ '<%= dirs.css %>/**' ],
+		},
+
+		// Copy the plugin into the build directory
+		copy: {
+			main: {
+				src: [
+					'**',
+					'!node_modules/**',
+					'!build/**',
+					'!deploy/**',
+					'!svn/**',
+					'!**/*.zip',
+					'!**/*.bak',
+					'!wp-assets/**',
+					'!package-lock.json',
+					'!screenshots/**',
+					'!.git/**',
+					'!**.md',
+					'!Gruntfile.js',
+					'!package.json',
+					'!gitcreds.json',
+					'!.gitcreds',
+					'!.gitignore',
+					'!.gitmodules',
+					'!sftp-config.json',
+					'!**.sublime-workspace',
+					'!**.sublime-project',
+					'!deploy.sh',
+					'!**/*~',
+					'!phpcs.xml',
+					'!composer.json',
+					'!composer.lock',
+					'!vendor/**',
+					'!none',
+					'!bin/**',
+					'!assets/scss/**',
+				],
+				dest: 'build/',
+			},
+		},
+
+		// Make a zipfile.
+		compress: {
+			main: {
+				options: {
+					mode: 'zip',
+					archive: 'deploy/<%= pkg.name %>-<%= pkg.version %>.zip',
+				},
+				expand: true,
+				cwd: 'build/',
+				dest: '<%= pkg.name %>',
+				src: [ '**/*' ],
+			},
+		},
+
+		// bump version numbers (replace with version in package.json)
+		replace: {
+			Version: {
+				src: [ 'readme.txt', '<%= pkg.name %>.php' ],
+				overwrite: true,
+				replacements: [
+					{
+						from: /Stable tag:.*$/m,
+						to: 'Stable tag: <%= pkg.version %>',
+					},
+					{
+						from: /Version:.*$/m,
+						to: 'Version: <%= pkg.version %>',
+					},
+					{
+						from: /const VERSION = \'.*.'/m,
+						to: "const VERSION = '<%= pkg.version %>'",
+					},
+				],
+			},
+		},
+	} );
+
+	// Register tasks.
+	grunt.registerTask( 'js', [ 'jshint', 'uglify' ] );
+	grunt.registerTask( 'css', [ 'clean:css', 'sass', 'postcss', 'rtlcss', 'cssmin' ] );
+	grunt.registerTask( 'assets', [ 'js', 'css' ] );
+	grunt.registerTask( 'default', [ 'assets' ] );
+	grunt.registerTask( 'zip', [ 'clean:main', 'copy', 'compress', 'clean:main' ] );
+	grunt.registerTask( 'build', [ 'replace', 'assets' ] );
+	grunt.registerTask( 'release', [ 'build', 'clean:main', 'copy', 'compress' ] );
 };

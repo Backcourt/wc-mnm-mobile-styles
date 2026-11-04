@@ -1,7 +1,7 @@
 {
-    "name": "kathyisawesome/wc-mnm-mobile-styles",
+    "name": "backcourt/wc-mnm-mobile-styles",
     "description": "Turns the Mix and Match counter message into a sticky footer.",
-    "homepage": "https://github.com/kathyisawesome/wc-mnm-mobile-styles",
+    "homepage": "https://github.com/Backcourt/wc-mnm-mobile-styles",
     "type": "wordpress-plugin",
     "license": "GPL-3.0-or-later",
     "authors": [
@@ -11,20 +11,19 @@
         }
     ],
     "support": {
-        "source": "https://github.com/kathyisawesome/wc-mnm-mobile-styles",
-        "issues": "https://github.com/kathyisawesome/wc-mnm-mobile-styles/issues"
+        "source": "https://github.com/Backcourt/wc-mnm-mobile-styles",
+        "issues": "https://github.com/Backcourt/wc-mnm-mobile-styles/issues"
     },
     "require": {
-        "afragen/git-updater-lite": "^1"
+        "afragen/git-updater-lite": "^3"
     },
     "require-dev": {
-        "brianhenryie/strauss": "^0.20.1",
         "woocommerce/woocommerce-sniffs": "^1.0",
         "wp-cli/i18n-command": "^2.6"
     },
     "scripts": {
         "makepot-audit": [
-            "wp --allow-root i18n make-pot . languages/wc-mnm-mobile-styles.pot --slug=wc-mnm-mobile-styles --exclude=\".github,.wordpress-org,build,deploy,node_modules,packages,vendor\" --headers='{\"Report-Msgid-Bugs-To\":\"https://github.com/kathyisawesome/wc-mnm-mobile-styles/issues/new\"}'"
+            "wp --allow-root i18n make-pot . languages/wc-mnm-mobile-styles.pot --slug=wc-mnm-mobile-styles --exclude=\".github,.wordpress-org,build,deploy,node_modules,packages,vendor\" --headers='{\"Report-Msgid-Bugs-To\":\"https://github.com/Backcourt/wc-mnm-mobile-styles/issues/new\"}'"
         ],
         "makepot": [
             "@makepot-audit --skip-audit"
@@ -39,8 +38,9 @@
             "phpcbf . "
         ],
         "prefix-namespaces": [
-            "strauss",
-            "@php composer dump-autoload"
+            "sh -c 'test -f bin/strauss.phar || { mkdir -p bin && curl -fL -o bin/strauss.phar https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar; }'",
+            "@php bin/strauss.phar",
+            "@composer dump-autoload"
         ],
         "post-install-cmd": [
             "@prefix-namespaces"
@@ -61,7 +61,7 @@
             "makepot-audit": "Generate a .pot file for translation. Dry run.",
             "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
             "phpcb": "Fix coding standards warnings/errors automatically with PHP Code Beautifier",
-            "prefix-namespaces": "Prefix namespaces of dependencies with Strauss"
+            "prefix-namespaces": "Download the latest Strauss phar (if needed) and prefix shipped Composer packages into packages/"
         },
         "strauss": {
             "target_directory": "packages",
