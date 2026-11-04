@@ -19,10 +19,6 @@
 
 }
 
-.wc-mnm-has-mobile-footer .wc-mnm-edit-container-shop_subscription .wc-mnm-edit-subscription-actions {
-	display: none;
-}
-
 /**
  * Leave room at the end of the page, so the last items can scroll clear of the footer.
  */
@@ -35,8 +31,6 @@ body.wc-mnm-has-mobile-footer {
  * Footer.
  */
 .mnm-mobile-container {
-
-	--wc-mnm-mobile-footer-accent: var(--wp--preset--color--contrast, #222);
 
 	background: var(--wp--preset--color--base, #fff);
 	color: var(--wp--preset--color--contrast, inherit);
@@ -194,84 +188,6 @@ body.wc-mnm-has-mobile-footer {
 		}
 	}
 
-	.wc-mnm-mobile-footer__cancel {
-		margin-top: 0.5em;
-		width: 100%;
-	}
-
-	// Subscription plans, mirrored from the form: a segmented toggle for radios, a compact dropdown for selects.
-	.wc-mnm-mobile-footer__plans {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.5em;
-		margin-bottom: 0.5em;
-		font-size: 0.875em;
-	}
-
-	.wc-mnm-mobile-footer__plan--radio {
-		display: inline-flex;
-		flex-wrap: wrap;
-		border: 1px solid var(--wc-mnm-mobile-footer-accent);
-		border-radius: 999px;
-		overflow: hidden;
-	}
-
-	// Doubled class to beat themes' button styles.
-	.wc-mnm-mobile-footer__plan-option.wc-mnm-mobile-footer__plan-option {
-		margin: 0;
-		padding: 0.4em 0.9em;
-		border: 0;
-		border-radius: 0;
-		background: transparent;
-		box-shadow: none;
-		color: var(--wc-mnm-mobile-footer-accent);
-		font-size: inherit;
-		font-weight: 600;
-		line-height: 1.4;
-		cursor: pointer;
-
-		&:hover {
-			background: color-mix(in srgb, var(--wc-mnm-mobile-footer-accent) 10%, transparent);
-		}
-
-		// Sale prices and the price suffix, copied from the form's label.
-		del {
-			font-weight: normal;
-			opacity: 0.7;
-		}
-
-		ins {
-			text-decoration: none;
-		}
-
-		small {
-			font-size: 0.75em;
-			font-weight: normal;
-		}
-
-		&[aria-checked="true"] {
-			background: var(--wc-mnm-mobile-footer-accent);
-			color: var(--wp--preset--color--base, #fff);
-		}
-
-		&:focus {
-			outline: none;
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--wc-mnm-mobile-footer-accent);
-			outline-offset: -4px;
-		}
-	}
-
-	.wc-mnm-mobile-footer__plan--select select {
-		max-width: 14em;
-		margin: 0;
-		padding: 0.35em 0.5em;
-		font-size: inherit;
-	}
-
 }
 
 /**
@@ -311,19 +227,10 @@ body.wc-mnm-has-mobile-footer {
 				text-align: right;
 			}
 
-			.wc-mnm-mobile-footer__plans {
-				justify-content: flex-end;
-			}
-
-			.wc-mnm-mobile-footer__add-to-cart,
-			.wc-mnm-mobile-footer__cancel {
+			.wc-mnm-mobile-footer__add-to-cart {
 				display: inline-block;
 				width: auto;
 				margin-top: 0;
-			}
-
-			.wc-mnm-mobile-footer__cancel {
-				margin-left: 0.5em;
 			}
 		}
 	}

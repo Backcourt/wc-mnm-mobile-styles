@@ -34,6 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use \Backcourt\MNMMobileStyles\Vendor\Fragen;
+use \Backcourt\MixAndMatch\Interactivity\ContainerStore;
 
  /**
   * Add Git Updater Lite
@@ -45,6 +46,20 @@ class WC_MNM_Mobile_Styles {
 
 	const REQ_MNM_VERSION = '3.0.0-alpha.2';
 	const VERSION = '3.0.0-beta.1';
+
+	/**
+	 * Script module ID.
+	 *
+	 * @var string
+	 */
+	const MODULE = 'wc-mnm-mobile-styles';
+
+	/**
+	 * Interactivity API store namespace.
+	 *
+	 * @var string
+	 */
+	const STORE = 'wc-mnm-mobile-styles';
 
 	/**
 	 * Whether the footer is needed on this page.
@@ -60,6 +75,11 @@ class WC_MNM_Mobile_Styles {
 
 		// Quietly quit if Mix and Match is not active or too old.
 		if ( ! function_exists( 'wc_mix_and_match' ) || version_compare( wc_mix_and_match()->version, self::REQ_MNM_VERSION ) < 0 ) {
+			return false;
+		}
+
+		// The footer is rendered from the container store, which needs the Interactivity API.
+		if ( ! class_exists( ContainerStore::class ) || ! ContainerStore::is_supported() ) {
 			return false;
 		}
 
@@ -104,25 +124,12 @@ class WC_MNM_Mobile_Styles {
 
 		$script_path = 'assets/js/frontend/wc-mnm-mobile-styles' . $suffix . '.js';
 
-		wp_register_script(
-			'wc_mnm_mobile',
+		// Native ES module. Its imports resolve through the import map.
+		wp_register_script_module(
+			self::MODULE,
 			self::plugin_url() . $script_path,
-			array( 'jquery', 'wc-add-to-cart-mnm' ),
-			WC_Mix_and_Match()->get_file_version( self::plugin_path() . $script_path, self::VERSION ),
-			array(
-				'in_footer' => true,
-				'strategy'  => 'defer',
-			)
-		);
-
-		wp_localize_script(
-			'wc_mnm_mobile',
-			'wc_mnm_mobile_params',
-			array(
-				'i18n_plans'       => _x( 'Purchase options', '[Frontend]', 'wc-mnm-mobile-styles' ),
-				/* translators: Sale price in a dropdown option. %p: Sale price. %r: Regular price. */
-				'i18n_sale_format' => _x( '%p (was %r)', '[Frontend]', 'wc-mnm-mobile-styles' ),
-			)
+			array( '@wordpress/interactivity', ContainerStore::MODULE ),
+			WC_Mix_and_Match()->get_file_version( self::plugin_path() . $script_path, self::VERSION )
 		);
 	}
 
@@ -164,7 +171,17 @@ class WC_MNM_Mobile_Styles {
 		}
 
 		wp_enqueue_style( 'wc_mnm_mobile' );
-		wp_enqueue_script( 'wc_mnm_mobile' );
+		wp_enqueue_script_module( self::MODULE );
+
+		wp_interactivity_state(
+			self::STORE,
+			array(
+				'i18n' => array(
+					'addToCart' => _x( 'Add to cart', '[Frontend]', 'wc-mnm-mobile-styles' ),
+					'update'    => _x( 'Update', '[Frontend] Footer button when editing an existing container.', 'wc-mnm-mobile-styles' ),
+				),
+			)
+		);
 
 		// One footer per page, whichever form is in view.
 		if ( ! self::$attached ) {

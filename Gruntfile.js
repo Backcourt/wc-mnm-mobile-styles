@@ -83,6 +83,7 @@ module.exports = function ( grunt ) {
 		uglify: {
 			options: {
 				banner: '/*! <%= pkg.title %> <%= pkg.version %> */\n',
+				module: true, // The frontend scripts are ES modules.
 				output: {
 					comments: /@license|@preserve|^!/,
 				},

@@ -19,13 +19,13 @@ Turns the Mix and Match counter message into a sticky footer
 
 = 3.0.0-beta.1 XXXX.XX.XX =
 * Important: Requires Mix and Match 3.0.
-* Important: The sticky footer is plain jQuery again, built from the add to cart form. React and the webpack build are gone.
+* Important: The sticky footer uses the Interactivity API and Mix and Match's container store. React and the webpack build are gone.
 * Important: Removed Variable Mix and Match support. Use Mix and Match 3.0's packages instead.
 * New: The footer follows a container's package, its size, price and progress update when the shopper picks another one.
 * New: Template single-product/mnm/mobile-footer.php to override the footer markup.
-* New: All Products for Subscriptions plans show in the footer, as a toggle for one plan or a dropdown for several, and stay in sync with the form.
 * New: The page leaves room at the bottom for the footer, so the last items can scroll clear of it.
 * Tweak: The form's own status and buttons are only hidden once the footer has taken over, so the form still works if the script doesn't load.
+* Tweak: When editing a subscription, the form's own cancel button stays visible instead of being copied into the footer.
 * Tweak: The footer is hidden from screen readers and the keyboard while it's out of view.
 * Removed: The `wc.mnm.container-route-params` JavaScript filter, the footer no longer fetches the product from the Store API.
 
