@@ -1,7 +1,7 @@
 {
-    "name": "kathyisawesome/wc-mnm-mobile-styles",
+    "name": "backcourt/wc-mnm-mobile-styles",
     "description": "Turns the Mix and Match counter message into a sticky footer.",
-    "homepage": "https://github.com/kathyisawesome/wc-mnm-mobile-styles",
+    "homepage": "https://github.com/Backcourt/wc-mnm-mobile-styles",
     "type": "wordpress-plugin",
     "license": "GPL-3.0-or-later",
     "authors": [
@@ -11,8 +11,8 @@
         }
     ],
     "support": {
-        "source": "https://github.com/kathyisawesome/wc-mnm-mobile-styles",
-        "issues": "https://github.com/kathyisawesome/wc-mnm-mobile-styles/issues"
+        "source": "https://github.com/Backcourt/wc-mnm-mobile-styles",
+        "issues": "https://github.com/Backcourt/wc-mnm-mobile-styles/issues"
     },
     "require": {
         "afragen/git-updater-lite": "^3"
@@ -23,7 +23,7 @@
     },
     "scripts": {
         "makepot-audit": [
-            "wp --allow-root i18n make-pot . languages/wc-mnm-mobile-styles.pot --slug=wc-mnm-mobile-styles --exclude=\".github,.wordpress-org,build,deploy,node_modules,packages,vendor\" --headers='{\"Report-Msgid-Bugs-To\":\"https://github.com/kathyisawesome/wc-mnm-mobile-styles/issues/new\"}'"
+            "wp --allow-root i18n make-pot . languages/wc-mnm-mobile-styles.pot --slug=wc-mnm-mobile-styles --exclude=\".github,.wordpress-org,build,deploy,node_modules,packages,vendor\" --headers='{\"Report-Msgid-Bugs-To\":\"https://github.com/Backcourt/wc-mnm-mobile-styles/issues/new\"}'"
         ],
         "makepot": [
             "@makepot-audit --skip-audit"

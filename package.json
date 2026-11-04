@@ -7,10 +7,10 @@
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kathyisawesome/wc-mnm-mobile-styles"
+    "url": "https://github.com/Backcourt/wc-mnm-mobile-styles"
   },
   "bugs": {
-    "url": "https://github.com/kathyisawesome/wc-mnm-mobile-styles/issues"
+    "url": "https://github.com/Backcourt/wc-mnm-mobile-styles/issues"
   },
   "author": "helgatheviking",
   "devDependencies": {

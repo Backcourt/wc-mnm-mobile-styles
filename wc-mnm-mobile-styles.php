@@ -4,8 +4,8 @@
  * Plugin URI: https://woocommerce.com/products/woocommerce-mix-and-match-products/
  * Description: Turns the Mix and Match counter message into a sticky footer.
  * Version: 3.0.0-beta.1
- * Author: Kathy Darling
- * Author URI: http://kathyisawesome.com/
+ * Author: Backcourt Development
+ * Author URI: https://www.backcourt.io/
  *
  * Text Domain: wc-mnm-mobile-styles
  * Domain Path: /languages/
@@ -18,12 +18,12 @@
  *
  * Requires Plugins: woocommerce, woocommerce-mix-and-match-products
  *
- * GitHub Plugin URI: https://github.com/kathyisawesome/wc-mnm-mobile-styles
+ * GitHub Plugin URI: https://github.com/Backcourt/wc-mnm-mobile-styles
  * Primary Branch: trunk
  * Release Asset: true
  * Update URI: https://www.backcourt.io
  *
- * Copyright: © 2024 Kathy Darling
+ * Copyright: © 2024 Backcourt Development
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  */
