@@ -186,6 +186,18 @@ body.wc-mnm-has-mobile-footer {
 		&:focus {
 			text-decoration: none;
 		}
+
+		// The same reset arrow as the form's Clear selections button. Inline-block, so it isn't underlined.
+		&::after {
+			content: "\21BA";
+			display: inline-block;
+			margin-left: 0.25em;
+			text-decoration: none;
+		}
+
+		.rtl &::after {
+			content: "\21BB";
+		}
 	}
 
 }
