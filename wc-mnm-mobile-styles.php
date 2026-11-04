@@ -55,6 +55,13 @@ class WC_MNM_Mobile_Styles {
 	const MODULE = 'wc-mnm-mobile-styles';
 
 	/**
+	 * Subscription plans script module ID.
+	 *
+	 * @var string
+	 */
+	const PLANS_MODULE = 'wc-mnm-mobile-styles-plans';
+
+	/**
 	 * Interactivity API store namespace.
 	 *
 	 * @var string
@@ -131,6 +138,16 @@ class WC_MNM_Mobile_Styles {
 			array( '@wordpress/interactivity', ContainerStore::MODULE ),
 			WC_Mix_and_Match()->get_file_version( self::plugin_path() . $script_path, self::VERSION )
 		);
+
+		// Subscription plans. A stopgap that reads the form, until Subscriptions provides them.
+		$plans_path = 'assets/js/frontend/wc-mnm-mobile-plans' . $suffix . '.js';
+
+		wp_register_script_module(
+			self::PLANS_MODULE,
+			self::plugin_url() . $plans_path,
+			array( '@wordpress/interactivity', ContainerStore::MODULE, self::MODULE ),
+			WC_Mix_and_Match()->get_file_version( self::plugin_path() . $plans_path, self::VERSION )
+		);
 	}
 
 	/**
@@ -183,6 +200,21 @@ class WC_MNM_Mobile_Styles {
 			)
 		);
 
+		if ( self::has_plans() ) {
+			wp_enqueue_script_module( self::PLANS_MODULE );
+
+			wp_interactivity_state(
+				self::STORE . '/plans',
+				array(
+					'i18n' => array(
+						'plans'      => _x( 'Purchase options', '[Frontend]', 'wc-mnm-mobile-styles' ),
+						/* translators: Sale price in a dropdown option. %p: Sale price. %r: Regular price. */
+						'saleFormat' => _x( '%p (was %r)', '[Frontend]', 'wc-mnm-mobile-styles' ),
+					),
+				)
+			);
+		}
+
 		// One footer per page, whichever form is in view.
 		if ( ! self::$attached ) {
 			self::$attached = true;
@@ -198,7 +230,7 @@ class WC_MNM_Mobile_Styles {
 	public static function footer_template() {
 		wc_get_template(
 			'single-product/mnm/mobile-footer.php',
-			array(),
+			array( 'has_plans' => self::has_plans() ),
 			'',
 			self::plugin_path() . 'templates/'
 		);
@@ -231,6 +263,15 @@ class WC_MNM_Mobile_Styles {
 	// --------------------------------------------------------------------------
 	// Helper Functions.
 	// --------------------------------------------------------------------------
+
+	/**
+	 * Whether All Products for Subscriptions is active, so the footer shows plans.
+	 *
+	 * @return bool
+	 */
+	public static function has_plans() {
+		return class_exists( 'WCS_ATT' );
+	}
 
 	/**
 	 * Get the plugin url.

@@ -27,6 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $button_class = wp_theme_get_element_class_name( 'button' );
+$has_plans    = isset( $has_plans ) && $has_plans; // Whether All Products for Subscriptions plans are shown.
 ?>
 <div
 	id="wc-mnm-mobile-footer"
@@ -80,6 +81,19 @@ $button_class = wp_theme_get_element_class_name( 'button' );
 		<div class="column col-2">
 
 			<div class="mnm_button_wrap wc-mnm-mobile-footer__actions" data-wp-bind--hidden="!state.isAvailable">
+
+				<?php if ( ! empty( $has_plans ) ) : ?>
+					<div
+						class="wc-mnm-mobile-footer__plans"
+						hidden
+						data-wp-interactive="wc-mnm-mobile-styles/plans"
+						data-wp-bind--hidden="!state.hasPlans"
+						data-wp-init="callbacks.init"
+						data-wp-watch="callbacks.render"
+						data-wp-on--click="actions.onClick"
+						data-wp-on--change="actions.onChange"
+					></div>
+				<?php endif; ?>
 
 				<button
 					type="button"

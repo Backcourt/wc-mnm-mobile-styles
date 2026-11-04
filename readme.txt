@@ -24,6 +24,7 @@ Turns the Mix and Match counter message into a sticky footer
 * New: The footer follows a container's package, its size, price and progress update when the shopper picks another one.
 * New: Template single-product/mnm/mobile-footer.php to override the footer markup.
 * New: The page leaves room at the bottom for the footer, so the last items can scroll clear of it.
+* New: All Products for Subscriptions plans show in the footer, next to the add to cart button: a toggle for one plan, a dropdown for several. They stay in sync with the form.
 * New: The footer's Clear selections button has the same reset arrow as the form's.
 * New: Updates come from backcourt.io through Git Updater Lite 3, using the release zip from GitHub.
 * Tweak: The form's own status and buttons are only hidden once the footer has taken over, so the form still works if the script doesn't load.
